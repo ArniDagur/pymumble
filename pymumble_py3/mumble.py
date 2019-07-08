@@ -163,6 +163,12 @@ class Mumble(threading.Thread):
         self.connected = PYMUMBLE_CONN_STATE_AUTHENTICATING
         return self.connected
 
+    def close(self):
+        if self.connected == PYMUMBLE_CONN_STATE_CONNECTED:
+            self.reconnect = False
+            self.connected = PYMUMBLE_CONN_STATE_NOT_CONNECTED
+            self.control_socket.close()
+
     def loop(self):
         """
         Main loop
